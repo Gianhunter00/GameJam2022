@@ -18,12 +18,15 @@ public class AnimationManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+            MyAnimator.SetTrigger("Jump");
+        
         //float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        float y = Input.GetAxis("Vertical") * (Input.GetKey(KeyCode.LeftControl) ? 2 : 1);
 
-        MyAnimator.SetFloat("Speed", Mathf.Abs(y));
+        MyAnimator.SetFloat("Speed", y);
 
-        transform.position += transform.forward * y;
+        //transform.position += transform.forward * y;
 
 
 
