@@ -75,7 +75,7 @@ public class CharacterController2D : MonoBehaviour
         else
             for (int i = 0; i < collidersGround.Length; i++)
             {
-                if (collidersGround[i].gameObject != gameObject)
+                if (collidersGround[i].gameObject != gameObject && collidersGround[i].isTrigger == false)
                 {
                     m_Grounded = true;
                     if (!wasGrounded)
@@ -84,7 +84,7 @@ public class CharacterController2D : MonoBehaviour
             }
         for (int i = 0; i < collidersWall.Length; i++)
         {
-            if (collidersWall[i].gameObject != gameObject)
+            if (collidersWall[i].gameObject != gameObject && collidersWall[i].isTrigger == false)
             {
                 m_Wall = true;
                 if (!wasWall && !m_Grounded)
