@@ -10,21 +10,26 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMove = 0f;
     bool isFalling;
     bool jump = false;
+    public bool Controllable = false;
     void Update()
     {
-        horizontalMove = Input.GetAxis("Horizontal") * runSpeed;
-        Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-        if (Input.GetButtonDown("Jump"))
+        if (Controllable)
         {
-            jump = true;
-            Animator.SetBool("IsJumping", true);
+            horizontalMove = Input.GetAxis("Horizontal") * runSpeed;
+            Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+                Animator.SetBool("IsJumping", true);
+            }
+            if (controller.m_Rigidbody2D.velocity.y < 0 && !controller.m_Grounded && !controller.m_Wall)
+            {
+                Animator.SetBool("IsJumping", false);
+                Animator.SetBool("IsFalling", true);
+                isFalling = true;
+            }
         }
-        if (controller.m_Rigidbody2D.velocity.y < 0 && !controller.m_Grounded && !controller.m_Wall)
-        {
-            Animator.SetBool("IsJumping", false);
-            Animator.SetBool("IsFalling", true);
-            isFalling = true;
-        }
+        
     }
     public void Onlanding()
     {
