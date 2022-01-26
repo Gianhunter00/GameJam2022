@@ -6,16 +6,18 @@ public class CameraBehaviors : MonoBehaviour
 {
     // Start is called before the first frame update
     public List<GameObject> Players;
-    private GameObject target;
     public Vector3 offSet;
+    public AnimationCurve FadeCurve;
+    public float FadeDuration;
+    
+    
+    private GameObject target;
     private int index;
     private bool startFadeOut;
     private float alpha;
-
-    public AnimationCurve FadeCurve;
     private Texture2D fadeOutTexture;
     private float multiplier;
-    public float FadeDuration;
+
     private float normalizedTime;
     private bool fadedOut;
 
