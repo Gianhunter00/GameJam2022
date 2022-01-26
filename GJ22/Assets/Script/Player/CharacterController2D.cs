@@ -84,7 +84,7 @@ public class CharacterController2D : MonoBehaviour
             }
         for (int i = 0; i < collidersWall.Length; i++)
         {
-            if (collidersWall[i].gameObject != gameObject && collidersWall[i].isTrigger == false)
+            if (collidersWall[i].gameObject != gameObject && collidersWall[i].isTrigger == false && (Input.GetAxis("Horizontal") != 0 || wasWall))
             {
                 m_Wall = true;
                 if (!wasWall && !m_Grounded)
