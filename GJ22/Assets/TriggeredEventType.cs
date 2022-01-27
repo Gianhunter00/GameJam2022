@@ -22,8 +22,10 @@ public class TriggeredEventType : MonoBehaviour
     private int index = 0;
     private bool elevatorOn;
     private bool regenerateCollider;
+    private CameraBehaviors mainCamera;
     private void Start()
     {
+        mainCamera = Camera.main.GetComponent<CameraBehaviors>();
         MyCompositeCollider = GetComponent<CompositeCollider2D>();
         MyAnim = GetComponent<Animator>();
         MyCollider = GetComponent<Collider2D>();
@@ -45,6 +47,7 @@ public class TriggeredEventType : MonoBehaviour
         {
             MyCollider.isTrigger = true;
             MyCollider.enabled = true;
+            mainCamera.FadeOnTrigger(transform);
         }
 
     }
@@ -78,7 +81,7 @@ public class TriggeredEventType : MonoBehaviour
         Debug.Log("CIAO");
     }
 
-    
+
     private void Update()
     {
         if (regenerateCollider)

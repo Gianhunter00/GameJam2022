@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,8 @@ public class CameraBehaviors : MonoBehaviour
     public Vector3 offSet;
     public AnimationCurve FadeCurve;
     public float FadeDuration;
-    
-    
+    public float DoubleFadeDuration;
+
     private GameObject target;
     private int index;
     private bool startFadeOut;
@@ -18,8 +19,14 @@ public class CameraBehaviors : MonoBehaviour
     private Texture2D fadeOutTexture;
     private float multiplier;
 
+
     private float normalizedTime;
     private bool fadedOut;
+    private bool doubleFadeOut;
+    private GameObject prevTarget;
+    private int doubleFadeIndex = 0;
+    private Transform eventTransform;
+
 
     void Start()
     {
@@ -42,33 +49,65 @@ public class CameraBehaviors : MonoBehaviour
         {
             OnFadeOut();
         }
-
-
-       
-
         if (startFadeOut)
         {
-            alpha = (FadeCurve.Evaluate(normalizedTime));
-            //Debug.Log(alpha);
-            fadeOutTexture.SetPixel(0, 0, new Color(0, 0, 0, alpha));
-            fadeOutTexture.Apply();
-            if (normalizedTime >= 0.5f && !fadedOut)
-            {
-                fadedOut = true;
-                OnPlayerSwitch();
-            }
-            if (alpha < 0)
-            {
-                normalizedTime = 0;
-                startFadeOut = false;
-                fadedOut = false;
-                alpha = 0;
-
-            }
-            normalizedTime += Time.deltaTime / FadeDuration;
+            FadeOut();
+        }
+        if (doubleFadeOut)
+        {
+            DoubleFadeOut(eventTransform);
         }
 
+    }
 
+    private void DoubleFadeOut(Transform transform)
+    {
+        alpha = (FadeCurve.Evaluate(normalizedTime));
+        //Debug.Log(alpha);
+        fadeOutTexture.SetPixel(0, 0, new Color(0, 0, 0, alpha));
+        fadeOutTexture.Apply();
+        if (normalizedTime >= 0.5f && !fadedOut)
+        {
+            fadedOut = true;
+            target = transform.gameObject;
+            if (doubleFadeIndex == 1)
+                target = prevTarget;
+        }
+        if (alpha < 0)
+        {
+            normalizedTime = 0;
+            fadedOut = false;
+            alpha = 0;
+            if (doubleFadeIndex == 1)
+            {
+                doubleFadeOut = false;
+                return;
+            }
+            doubleFadeIndex++;
+        }
+        normalizedTime += Time.deltaTime / DoubleFadeDuration;
+    }
+
+    private void FadeOut()
+    {
+        alpha = (FadeCurve.Evaluate(normalizedTime));
+        //Debug.Log(alpha);
+        fadeOutTexture.SetPixel(0, 0, new Color(0, 0, 0, alpha));
+        fadeOutTexture.Apply();
+        if (normalizedTime >= 0.5f && !fadedOut)
+        {
+            fadedOut = true;
+            OnPlayerSwitch();
+        }
+        if (alpha < 0)
+        {
+            normalizedTime = 0;
+            startFadeOut = false;
+            fadedOut = false;
+            alpha = 0;
+            return;
+        }
+        normalizedTime += Time.deltaTime / FadeDuration;
     }
 
     private void OnGUI()
@@ -86,6 +125,16 @@ public class CameraBehaviors : MonoBehaviour
         target.GetComponent<PlayerMovement>().Controllable = false;
         target = Players[index];
         target.GetComponent<PlayerMovement>().Controllable = true;
+    }
+
+
+    public void FadeOnTrigger(Transform transform)
+    {
+        prevTarget = target;
+        doubleFadeOut = true;
+        eventTransform = transform;
+        doubleFadeIndex = 0;
+
     }
 
     public void OnFadeOut()
