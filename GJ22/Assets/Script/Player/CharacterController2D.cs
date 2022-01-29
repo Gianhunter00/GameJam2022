@@ -25,6 +25,7 @@ public class CharacterController2D : MonoBehaviour
     private Vector3 m_Velocity = Vector3.zero;
     private float waitForGrounded = 0.1f;
     private bool jumpedFromWall;
+    public bool canDoubleJump = false;
 
     [Header("Events")]
     [Space]
@@ -101,9 +102,11 @@ public class CharacterController2D : MonoBehaviour
         }
         if (!m_Wall && wasWall)
             NotOnWallEvent?.Invoke();
+        if(m_Wall || m_Grounded)
+            canDoubleJump = false;
     }
 
-    public void Move(float move, bool crouch, bool jump)
+    public void Move(float move, bool crouch, bool jump, bool doubleJump)
     {
         // If crouching, check to see if the character can stand up
         if (crouch)
@@ -114,19 +117,30 @@ public class CharacterController2D : MonoBehaviour
                 crouch = true;
             }
         }
+        if (!m_Grounded && !m_Wall && doubleJump && canDoubleJump)
+        {
+            m_Rigidbody2D.velocity *= new Vector2(1f, 0f);
+            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            canDoubleJump = false;
+        }
         if ((m_Grounded || m_Wall) && jump)
         {
             waitForGrounded = 0.1f;
             // Add a vertical force to the player.
             if (m_Grounded)
+            {
+                m_Rigidbody2D.velocity *= new Vector2(1f, 0f);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                canDoubleJump = true;
+            }
             else
             {
+                m_Rigidbody2D.velocity *= new Vector2(1f, 0f);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
                 jumpedFromWall = true;
+                canDoubleJump = false;
                 NotOnWallEvent?.Invoke();
             }
-
             m_Grounded = false;
             m_Wall = false;
         }

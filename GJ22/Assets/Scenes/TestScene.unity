@@ -13305,8 +13305,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5321472642701436586, guid: 30cc07228d8c3094ebe571a250825f23,
         type: 3}
-      propertyPath: m_WhatIsGround.m_Bits
-      value: 375
+      propertyPath: m_JumpForce
+      value: 450
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30cc07228d8c3094ebe571a250825f23, type: 3}
@@ -13549,7 +13549,7 @@ MonoBehaviour:
   Speed: 1
   ClockWise: 1
   Edges:
-  - {x: 0, y: -21.01, z: 0}
+  - {x: 0.4228644, y: -21.644297, z: 0}
   - {x: 2.7845774, y: -19.193981, z: 0}
   MovingPlatform: 0
 --- !u!50 &8996357483952376909

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMove = 0f;
     bool isFalling;
     bool jump = false;
+    bool doubleJump = false;
     public bool Controllable = false;
     private bool prevControllable = false;
 
@@ -27,14 +28,23 @@ public class PlayerMovement : MonoBehaviour
         {
             horizontalMove = Input.GetAxis("Horizontal") * runSpeed;
             Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && controller.canDoubleJump && !doubleJump)
+            {
+                Animator.SetBool("IsFalling", false);
+                Animator.SetBool("IsJumping", false);
+                Animator.SetBool("IsDoubleJumping", true);
+                doubleJump = true;
+                isFalling = false;
+            }
+            if (Input.GetButtonDown("Jump") && !jump)
             {
                 jump = true;
                 Animator.SetBool("IsJumping", true);
             }
-            if (controller.m_Rigidbody2D.velocity.y < 0 && !controller.m_Grounded && !controller.m_Wall)
+            if (controller.m_Rigidbody2D.velocity.y < 0 && !controller.m_Grounded && !controller.m_Wall && !doubleJump)
             {
                 Animator.SetBool("IsJumping", false);
+                Animator.SetBool("IsDoubleJumping", false);
                 Animator.SetBool("IsFalling", true);
                 isFalling = true;
             }
@@ -65,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
     public void Onlanding()
     {
         Animator.SetBool("IsJumping", false);
+        Animator.SetBool("IsDoubleJumping", false);
         Animator.SetBool("IsFalling", false);
         Animator.SetBool("IsSliding", false);
         isFalling = false;
@@ -83,7 +94,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump, doubleJump);
         jump = false;
+        doubleJump = false;
     }
 }
