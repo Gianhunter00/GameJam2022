@@ -180,9 +180,9 @@ GameObject:
   - component: {fileID: 8996357484180319261}
   - component: {fileID: 8996357484180319263}
   - component: {fileID: 8996357484180319262}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triggered
-  m_TagString: Untagged
+  m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,6 +339,7 @@ MonoBehaviour:
   Edges:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  MovingPlatform: 0
 --- !u!1 &8996357484793985057
 GameObject:
   m_ObjectHideFlags: 0
