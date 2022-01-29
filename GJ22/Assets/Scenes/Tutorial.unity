@@ -63434,16 +63434,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5321472642701436586, guid: 30cc07228d8c3094ebe571a250825f23,
-        type: 3}
-      propertyPath: m_WhatIsGround.m_Bits
-      value: 1399
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321472642701436586, guid: 30cc07228d8c3094ebe571a250825f23,
-        type: 3}
-      propertyPath: m_JumpForceHorizontalFromWall
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30cc07228d8c3094ebe571a250825f23, type: 3}
 --- !u!1001 &7567340025457046594
