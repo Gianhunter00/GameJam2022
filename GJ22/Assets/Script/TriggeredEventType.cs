@@ -53,6 +53,12 @@ public class TriggeredEventType : MonoBehaviour
 
     }
 
+    public void BarEvent()
+    {
+        MyAnim?.SetTrigger("Open");
+        MyCollider.enabled = false;
+    }
+
     public void ElevatorEvent()
     {
         elevatorOn = true;
@@ -82,6 +88,7 @@ public class TriggeredEventType : MonoBehaviour
     {
         Debug.Log("CIAO");
     }
+
 
 
     private void Update()
