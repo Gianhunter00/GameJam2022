@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5321472642701436583}
   - component: {fileID: 5321472642701436588}
   - component: {fileID: 5321472642701436584}
+  - component: {fileID: 565953276}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -172,7 +173,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: -6367560908665664636, guid: c4d61440be0c46c488eca6ac1e3f540e,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -238,6 +239,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0.019172192, y: -0.11788404}
   m_Size: {x: 0.6642766, y: 0.7642319}
   m_Direction: 0
+--- !u!114 &565953276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321472642701436580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36912f0dee5de44c86f50a20d8b55b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5321472643023132996
 GameObject:
   m_ObjectHideFlags: 0

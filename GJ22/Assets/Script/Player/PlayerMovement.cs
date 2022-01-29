@@ -11,6 +11,16 @@ public class PlayerMovement : MonoBehaviour
     bool isFalling;
     bool jump = false;
     public bool Controllable = false;
+    private bool prevControllable = false;
+
+    private Rigidbody2D rb;
+    private void OnEnable()
+    {
+        EventMGR.OnPlayerSwitch.AddListener(OnPlayerSwitch);
+        EventMGR.OnMessageWithFocus.AddListener(OnLoseFocus);
+        EventMGR.OnEndMessage.AddListener(() => Controllable = prevControllable);
+        rb = GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
         if (Controllable)
@@ -31,6 +41,27 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+
+
+    public void OnLoseFocus(Transform t = null)
+    {
+        if (Controllable)
+        {
+            prevControllable = Controllable;
+            Controllable = false;
+        }
+        horizontalMove = 0;
+        Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+    }
+
+    public void OnPlayerSwitch()
+    {
+        Controllable = Controllable == false ? true : false;
+        horizontalMove = 0;
+        Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+    }
+
+
     public void Onlanding()
     {
         Animator.SetBool("IsJumping", false);
