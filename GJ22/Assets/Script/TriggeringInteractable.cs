@@ -27,7 +27,7 @@ public class TriggeringInteractable : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().sprite = On;
             TriggeredEvent?.Invoke();
-            if(TriggeredEvent.GetPersistentEventCount() > 0)
+            while(TriggeredEvent.GetPersistentEventCount() > 0)
                 UnityEventTools.RemovePersistentListener(TriggeredEvent, 0);
         }
     }
