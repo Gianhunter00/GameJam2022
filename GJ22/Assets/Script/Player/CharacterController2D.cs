@@ -45,7 +45,7 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
 
-        
+
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
@@ -87,11 +87,12 @@ public class CharacterController2D : MonoBehaviour
             }
         for (int i = 0; i < collidersWall.Length; i++)
         {
-            if (collidersWall[i].gameObject != gameObject && 
-                collidersWall[i].isTrigger == false && (!m_Grounded ||
-                /*(Input.GetAxis("Horizontal") != 0 ||*/ wasWall) &&
+            if (collidersWall[i].gameObject != gameObject &&
+                collidersWall[i].isTrigger == false && (!m_Grounded
+                /*|| (Input.GetAxis("Horizontal") != 0 || wasWall*/) &&
                 collidersWall[i].gameObject.tag == "WallJump")
             {
+                m_Rigidbody2D.velocity *= new Vector2(0f, 1f);
                 m_Wall = true;
                 if (!wasWall && !m_Grounded)
                     OnWallEvent?.Invoke();
@@ -102,7 +103,7 @@ public class CharacterController2D : MonoBehaviour
         }
         if (!m_Wall && wasWall)
             NotOnWallEvent?.Invoke();
-        if(m_Wall || m_Grounded)
+        if (m_Wall || m_Grounded)
             canDoubleJump = false;
     }
 
@@ -189,7 +190,7 @@ public class CharacterController2D : MonoBehaviour
             Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
             m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
             // If the input is moving the player right and the player is facing left...
-            
+
             if (move > 0 && !m_FacingRight)
             {
                 // ... flip the player.

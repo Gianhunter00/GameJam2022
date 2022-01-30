@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class TriggeredEventType : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class TriggeredEventType : MonoBehaviour
     private int index = 0;
     private bool elevatorOn;
     private bool regenerateCollider;
+    private bool returnToStart = false;
     private CameraBehaviors mainCamera;
     private void Start()
     {
@@ -65,7 +67,7 @@ public class TriggeredEventType : MonoBehaviour
             MyAnim?.SetTrigger("Open");
             MyCollider.enabled = false;
         }
-        
+
     }
     private void BarEventDelay()
     {
@@ -100,7 +102,7 @@ public class TriggeredEventType : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("CIAO");
+        SceneManager.LoadScene(0);
     }
 
 
@@ -112,32 +114,82 @@ public class TriggeredEventType : MonoBehaviour
             MyCompositeCollider.GenerateGeometry();
             regenerateCollider = false;
         }
-       
+
     }
     private void FixedUpdate()
     {
-        if (elevatorOn || MovingPlatform)
+        if (MovingPlatform)
         {
-            if (Edges.Count > 1)
+            MovePlatform();
+        }
+        if (elevatorOn && returnToStart)
+        {
+            ReturnToStart();
+        }
+    }
+
+    public void MovePlatform()
+    {
+        if (Edges.Count > 1)
+        {
+            if (parent != null && Vector3.Distance(startingPos, parent.position) > 0.0001f)
             {
-                if (parent != null && Vector3.Distance(startingPos, parent.position) > 0.0001f)
+                offset = parent.position - startingPos;
+                for (int i = 0; i < Edges.Count; i++)
                 {
-                    offset = parent.position - startingPos;
-                    for (int i = 0; i < Edges.Count; i++)
-                    {
-                        Edges[i] += offset;
-                    }
-                    startingPos = parent.position;
+                    Edges[i] += offset;
                 }
-                float distance = Vector3.Distance(transform.position, Edges[index]);
-                if (distance > 0.01f)
-                    transform.position = Vector3.MoveTowards(transform.position, Edges[index], Time.deltaTime * Speed);
-                else
-                    index = (index + 1) % Edges.Count;
+                startingPos = parent.position;
             }
+            float distance = Vector3.Distance(transform.position, Edges[index]);
+            if (distance > 0.01f)
+                transform.position = Vector3.MoveTowards(transform.position, Edges[index], Time.deltaTime * Speed);
+            else
+                index = (index + 1) % Edges.Count;
+        }
+    }
+
+    public void ReturnToStart()
+    {
+        if (Edges.Count > 1)
+        {
+            if (parent != null && Vector3.Distance(startingPos, parent.position) > 0.0001f)
+            {
+                offset = parent.position - startingPos;
+                Edges[0] += offset;
+                startingPos = parent.position;
+            }
+            float distance = Vector3.Distance(transform.position, Edges[index]);
+            if (distance > 0.01f)
+                transform.position = Vector3.MoveTowards(transform.position, Edges[0], Time.deltaTime * Speed);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (elevatorOn)
+        {
+            returnToStart = false;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (elevatorOn)
+        {
+            MovePlatform();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (elevatorOn)
+        {
+            returnToStart = true;
         }
     }
 }
+
 
 
 #if UNITY_EDITOR
