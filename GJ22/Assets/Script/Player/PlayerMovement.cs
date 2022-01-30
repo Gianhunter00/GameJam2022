@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
     public Animator Animator;
+    public Transform SpawnPoint;
     public float runSpeed = 40f;
     float horizontalMove = 0f;
     bool isFalling;
@@ -13,14 +14,26 @@ public class PlayerMovement : MonoBehaviour
     bool doubleJump = false;
     public bool Controllable = false;
     private bool prevControllable = false;
+    private Transform checkPoint;
 
     private Rigidbody2D rb;
     private void OnEnable()
     {
         EventMGR.OnPlayerSwitch.AddListener(OnPlayerSwitch);
         EventMGR.OnMessageWithFocus.AddListener(OnLoseFocus);
+        EventMGR.OnFocusedTriggeredEvent.AddListener(OnLoseFocus);
+        EventMGR.OnPlayerDeath?.AddListener(OnDeath);
+        EventMGR.OnEndFocusedTriggeredEvent.AddListener(() => Controllable = prevControllable);
         EventMGR.OnEndMessage.AddListener(() => Controllable = prevControllable);
+        EventMGR.OnPlayerCheckPoint.AddListener((x, y) => checkPoint = (x == this.transform ? y : checkPoint));
         rb = GetComponent<Rigidbody2D>();
+    }
+    private void Start()
+    {
+        if (SpawnPoint != null)
+        {
+            transform.position = SpawnPoint.position;
+        }
     }
     void Update()
     {
@@ -49,9 +62,36 @@ public class PlayerMovement : MonoBehaviour
                 isFalling = true;
             }
         }
-        
+
+    }
+    private void GainControl()
+    {
+        Controllable = true;
+    }
+    public void OnDeath(Transform transform)
+    {
+        prevControllable = Controllable;
+        Controllable = false;
+        horizontalMove = 0;
+        Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        if (this.transform == transform)
+        {
+            Invoke("Respawn", 1f);
+        }
     }
 
+    private void Respawn()
+    {
+        Invoke("GainControl", 1f);
+        if (checkPoint)
+        {
+            transform.position = checkPoint.position;
+        }
+        else
+        {
+            transform.position = SpawnPoint.position;
+        }
+    }
 
     public void OnLoseFocus(Transform t = null)
     {
@@ -66,9 +106,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnPlayerSwitch()
     {
-        Controllable = Controllable == false ? true : false;
+        prevControllable = Controllable;
+        Controllable = false;
         horizontalMove = 0;
         Animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        Invoke("SwitchPlayers", 2f);
+
+    }
+
+    private void SwitchPlayers()
+    {
+        Controllable = prevControllable == false ? true : false;
+        prevControllable = false;
     }
 
 

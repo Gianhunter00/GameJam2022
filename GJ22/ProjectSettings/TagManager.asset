@@ -9,6 +9,8 @@ TagManager:
   - Message
   - MessageWithFocus
   - WallJump
+  - TriggerWithFocus
+  - DeathZones
   layers:
   - Default
   - TransparentFX

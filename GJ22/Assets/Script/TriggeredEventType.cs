@@ -55,6 +55,21 @@ public class TriggeredEventType : MonoBehaviour
 
     public void BarEvent()
     {
+        if (this.gameObject.tag == "TriggerWithFocus")
+        {
+            EventMGR.OnTriggeredEvent.Invoke(transform);
+            EventMGR.OnFocusedTriggeredEvent.Invoke(transform);
+            Invoke("BarEventDelay", 3.3f);
+        }
+        else
+        {
+            MyAnim?.SetTrigger("Open");
+            MyCollider.enabled = false;
+        }
+        
+    }
+    private void BarEventDelay()
+    {
         MyAnim?.SetTrigger("Open");
         MyCollider.enabled = false;
     }
@@ -98,6 +113,10 @@ public class TriggeredEventType : MonoBehaviour
             MyCompositeCollider.GenerateGeometry();
             regenerateCollider = false;
         }
+       
+    }
+    private void FixedUpdate()
+    {
         if (elevatorOn || MovingPlatform)
         {
             if (Edges.Count > 1)
@@ -120,6 +139,7 @@ public class TriggeredEventType : MonoBehaviour
         }
     }
 }
+
 
 #if UNITY_EDITOR
 

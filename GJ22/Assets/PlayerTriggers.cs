@@ -21,9 +21,9 @@ public class PlayerTriggers : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerSwitch")
         {
-            Debug.Log("Ciao");
             collision.enabled = false;
             EventMGR.OnPlayerSwitch.Invoke();
+            EventMGR.OnPlayerCheckPoint.Invoke(this.transform, collision.transform);
         }
         else if (collision.gameObject.tag == "Message")
         {
@@ -46,6 +46,10 @@ public class PlayerTriggers : MonoBehaviour
         if (collision.gameObject.tag == "MovingPlatform")
         {
             transform.parent = collision.transform;
+        }
+        else if (collision.gameObject.tag == "DeathZones")
+        {
+            EventMGR.OnPlayerDeath.Invoke(this.transform);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
