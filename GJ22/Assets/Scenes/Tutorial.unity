@@ -59529,27 +59529,27 @@ PrefabInstance:
     - target: {fileID: 8996357484180319256, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484180319256, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.31
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484180319262, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: Speed
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484180319262, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: Edges.Array.data[0].x
-      value: 38
+      value: 38.5
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484180319262, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: Edges.Array.data[0].y
-      value: -17.604723
+      value: -16.5
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484180319262, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
@@ -59559,12 +59559,12 @@ PrefabInstance:
     - target: {fileID: 8996357484180319262, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: Edges.Array.data[1].x
-      value: 38
+      value: 38.5
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484180319262, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
       propertyPath: Edges.Array.data[1].y
-      value: 9.146357
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8996357484793985056, guid: 4baa8710cec50dc4280c20c1ad26a9be,
         type: 3}
